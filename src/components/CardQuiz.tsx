@@ -1,4 +1,4 @@
-import { Card, CardFooter, CardBody, Button, Link } from "@nextui-org/react";
+import { Card, CardFooter, CardBody, Link } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { IconDefinition } from "@fortawesome/fontawesome-common-types";

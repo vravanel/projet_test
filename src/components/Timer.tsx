@@ -14,7 +14,7 @@ function CircularProgressWithLabel(
       <CircularProgress
         variant="determinate"
         {...props}
-        size="10rem"
+        size="6rem"
         value={startValue}
       />
       <Box

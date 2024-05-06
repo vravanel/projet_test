@@ -2,10 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('_navbar.css');
 @import url('_home.css');
 @import url('_card-quiz.css');
 @import url('_timer.css');
+@import url('_response.css');
 
 body {
     height: 100vh;
