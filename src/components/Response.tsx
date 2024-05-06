@@ -3,7 +3,11 @@ import Checkbox from "@mui/material/Checkbox";
 import { Grid } from "@mui/material";
 import { useState } from "react";
 
-export default function CheckboxLabels() {
+interface props {
+  reponse: string;
+}
+
+const Response: React.FC<props> = ({ reponse }) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheck = (e: { target: { checked: any } }) => {
@@ -18,7 +22,7 @@ export default function CheckboxLabels() {
     <Grid item xs={6}>
       <FormControlLabel
         control={<Checkbox onChange={handleCheck} />}
-        label="Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression"
+        label={reponse}
         className={isChecked ? "checked text-label" : "text-label"}
         labelPlacement="start"
         sx={{
@@ -31,4 +35,5 @@ export default function CheckboxLabels() {
       />
     </Grid>
   );
-}
+};
+export default Response;

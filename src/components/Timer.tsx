@@ -5,6 +5,11 @@ import CircularProgress, {
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
+interface TimerProps {
+  resetTimer: boolean;
+  onTimeFinish: () => void;
+}
+
 function CircularProgressWithLabel(
   props: CircularProgressProps & { value: number }
 ) {
@@ -40,7 +45,7 @@ function CircularProgressWithLabel(
   );
 }
 
-export default function Timer() {
+const Timer: React.FC<TimerProps> = ({ resetTimer, onTimeFinish }) => {
   const [seconds, setSeconds] = useState(30);
 
   useEffect(() => {
@@ -48,6 +53,7 @@ export default function Timer() {
       setSeconds((prevSeconds) => {
         if (prevSeconds === 0) {
           clearInterval(interval);
+          onTimeFinish();
           return 0;
         } else {
           return prevSeconds - 1;
@@ -55,6 +61,14 @@ export default function Timer() {
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [resetTimer, onTimeFinish]);
+
+  useEffect(() => {
+    if (resetTimer) {
+      setSeconds(30);
+    }
+  }, [resetTimer]);
+
   return <CircularProgressWithLabel value={seconds} />;
-}
+};
+export default Timer;
