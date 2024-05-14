@@ -1,6 +1,13 @@
 import { ObjectType, Field, ID } from "type-graphql";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToMany,
+} from "typeorm";
 import { editOrCreateCategory } from "../resolvers/CategoryResolver";
+import { Quiz } from "./quiz";
 
 @Entity()
 @ObjectType()
@@ -12,6 +19,10 @@ export class Category extends BaseEntity {
   @Column()
   @Field()
   name!: string;
+
+  @OneToMany(() => Quiz, (quiz) => quiz.category)
+  @Field(() => [Quiz])
+  quizz!: Quiz[];
 
   constructor(category?: Partial<Category>) {
     super();
