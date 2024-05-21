@@ -7,6 +7,13 @@
 @import url('_timer.css');
 @import url('_response.css');
 
-body {
+body{
     height: 100vh;
+    background-color: #38369A;
+    box-sizing: border-box;
+    padding-top: 2rem;
+}
+
+main {
+    background-color: #F8F7F4;
 }

@@ -1,4 +1,3 @@
-import NavBar from "@/components/Navbar";
 import Question from "@/components/Question";
 import Response from "@/components/Response";
 import ProgressQuiz from "@/components/ProgressQuiz";
@@ -29,7 +28,6 @@ export default function Quiz() {
 
   return (
     <>
-      <NavBar />
       <div className="flex justify-end mt-10 mr-20">
         <Timer resetTimer={resetTimer} onTimeFinish={handleNext} />
       </div>
