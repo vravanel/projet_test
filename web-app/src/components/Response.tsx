@@ -1,39 +1,44 @@
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import { Grid } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Button, ButtonGroup } from "@mui/material";
 
-interface props {
+interface Props {
   reponse: string;
 }
 
-const Response: React.FC<props> = ({ reponse }) => {
-  const [isChecked, setIsChecked] = useState(false);
+const Response: React.FC<Props> = ({ reponse }) => {
+  const [selectedValue, setSelectedValue] = useState("");
 
-  const handleCheck = (e: { target: { checked: any } }) => {
-    if (e.target.checked) {
-      setIsChecked(true);
-    } else {
-      setIsChecked(false);
-    }
+  const handleClick = (reponse: string) => {
+    setSelectedValue(reponse);
   };
 
   return (
-    <Grid item xs={6}>
-      <FormControlLabel
-        control={<Checkbox onChange={handleCheck} />}
-        label={reponse}
-        className={isChecked ? "checked text-label" : "text-label"}
-        labelPlacement="start"
+    <ButtonGroup
+      variant="contained"
+      aria-label="outlined primary button group"
+      sx={{ marginTop: "8px" }}
+    >
+      <Button
+        onClick={() => handleClick(reponse)}
         sx={{
-          bgcolor: "background.paper",
+          bgcolor: selectedValue === reponse ? "#38369A" : "#F8F7F4",
+          color: selectedValue === reponse ? "#F8F7F4" : "#38369A",
           boxShadow: 1,
-          borderRadius: 2,
+          borderRadius: 8,
           p: 2,
-          width: "90%",
+          m: 1,
+          width: "200px",
+          height: "50px",
+          "&:hover": {
+            bgcolor: selectedValue === reponse ? "#271f75" : "#c7c7c7",
+            color: "#FFFFFF",
+          },
         }}
-      />
-    </Grid>
+      >
+        {reponse}
+      </Button>
+    </ButtonGroup>
   );
 };
+
 export default Response;

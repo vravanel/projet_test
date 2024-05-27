@@ -14,6 +14,9 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  query getCategories {\n    getCategories {\n      id\n      name\n    }\n  }\n": types.GetCategoriesDocument,
+    "\n  query GetAllQuiz {\n    getAllQuiz {\n      id\n      title\n      description\n      is_finish\n      difficulty\n    }\n  }\n": types.GetAllQuizDocument,
+    "\n  query GetQuizByCategory($getQuizByCategoryId: String!) {\n    getQuizByCategory(id: $getQuizByCategoryId) {\n      title\n      description\n      difficulty\n      is_finish\n      id\n    }\n  }\n": types.GetQuizByCategoryDocument,
+    "\n  query GetQuestionsByQuiz($getQuestionsByQuizId: String!) {\n    getQuestionsByQuiz(id: $getQuestionsByQuizId) {\n      id\n      title\n      reponses {\n        id\n        isValid\n        title\n      }\n    }\n  }\n": types.GetQuestionsByQuizDocument,
 };
 
 /**
@@ -34,6 +37,18 @@ export function graphql(source: string): unknown;
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query getCategories {\n    getCategories {\n      id\n      name\n    }\n  }\n"): (typeof documents)["\n  query getCategories {\n    getCategories {\n      id\n      name\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetAllQuiz {\n    getAllQuiz {\n      id\n      title\n      description\n      is_finish\n      difficulty\n    }\n  }\n"): (typeof documents)["\n  query GetAllQuiz {\n    getAllQuiz {\n      id\n      title\n      description\n      is_finish\n      difficulty\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetQuizByCategory($getQuizByCategoryId: String!) {\n    getQuizByCategory(id: $getQuizByCategoryId) {\n      title\n      description\n      difficulty\n      is_finish\n      id\n    }\n  }\n"): (typeof documents)["\n  query GetQuizByCategory($getQuizByCategoryId: String!) {\n    getQuizByCategory(id: $getQuizByCategoryId) {\n      title\n      description\n      difficulty\n      is_finish\n      id\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetQuestionsByQuiz($getQuestionsByQuizId: String!) {\n    getQuestionsByQuiz(id: $getQuestionsByQuizId) {\n      id\n      title\n      reponses {\n        id\n        isValid\n        title\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetQuestionsByQuiz($getQuestionsByQuizId: String!) {\n    getQuestionsByQuiz(id: $getQuestionsByQuizId) {\n      id\n      title\n      reponses {\n        id\n        isValid\n        title\n      }\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

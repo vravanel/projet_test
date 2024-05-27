@@ -5,6 +5,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
+  JoinColumn,
 } from "typeorm";
 import { Quiz } from "./quiz";
 import { editOrCreateReponse } from "../resolvers/ReponseResolver";
@@ -21,9 +22,14 @@ export class Reponse extends BaseEntity {
   @Field()
   title!: string;
 
+  @Column({ nullable: true, default: false })
+  @Field({ defaultValue: false, nullable: true })
+  isValid!: boolean;
+
   @ManyToOne(() => Question, (question) => question.reponses, {
     eager: true,
   })
+  @JoinColumn({ name: "questionId" })
   @Field(() => Question)
   question!: Question;
 
@@ -39,6 +45,8 @@ export class Reponse extends BaseEntity {
 
   static async newReponse(reponseData: editOrCreateReponse): Promise<Reponse> {
     const reponse = new Reponse(reponseData);
+    const question = await Question.getQuestionById(reponseData.questionId);
+    reponse.question = question;
     const saveReponse = await reponse.save();
     return saveReponse;
   }
@@ -60,13 +68,25 @@ export class Reponse extends BaseEntity {
     id: string,
     reponseData: Partial<editOrCreateReponse>
   ): Promise<Reponse> {
-    const reponse = await Reponse.findOneBy({ id: id });
+    const reponse = await Reponse.findOne({ where: { id } });
     if (!reponse) {
       throw new Error("La reponse n'existe pas ");
     }
-    await Reponse.update(id, reponseData);
-    await reponse?.reload();
 
+    Object.assign(reponse, reponseData);
+
+    if (reponseData.questionId) {
+      const question = await Question.findOne({
+        where: { id: reponseData.questionId },
+      });
+      if (!question) {
+        throw new Error("La question n'existe pas");
+      }
+      reponse.question = question;
+    }
+
+    await reponse.save();
+    await reponse.reload();
     return reponse;
   }
 

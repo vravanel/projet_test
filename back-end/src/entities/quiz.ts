@@ -77,6 +77,8 @@ export class Quiz extends BaseEntity {
 
   static async newQuiz(quizData: editOrCreateQuiz): Promise<Quiz> {
     const newQuiz = new Quiz(quizData);
+    const category = await Category.getCategoryById(quizData.categoryId);
+    newQuiz.category = category;
     const saveQuiz = await newQuiz.save();
     return saveQuiz;
   }
@@ -112,5 +114,13 @@ export class Quiz extends BaseEntity {
     if (affected === 0) {
       throw new Error("La quiz n'existe pas ");
     }
+  }
+
+  static async getQuizByCategory(id: string): Promise<Quiz[]> {
+    const quiz = await Quiz.find({
+      where: { category: { id: id } },
+      relations: ["category"],
+    });
+    return quiz;
   }
 }

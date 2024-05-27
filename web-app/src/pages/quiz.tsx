@@ -1,7 +1,12 @@
 import CardQuiz from "@/components/CardQuiz";
 import Category from "@/components/Category";
-import { GetCategoriesQuery } from "@/gql/graphql";
-import { gql, useQuery } from "@apollo/client";
+import {
+  GetAllQuizQuery,
+  GetCategoriesQuery,
+  GetQuizByCategoryQuery,
+} from "@/gql/graphql";
+import { gql, useQuery, useLazyQuery } from "@apollo/client";
+import { useState } from "react";
 
 const GET_CATEGORIES = gql`
   query getCategories {
@@ -12,24 +17,109 @@ const GET_CATEGORIES = gql`
   }
 `;
 
+const GET_ALL_QUIZ = gql`
+  query GetAllQuiz {
+    getAllQuiz {
+      id
+      title
+      description
+      is_finish
+      difficulty
+    }
+  }
+`;
+
+const GET_QUIZ_BY_CATEGORY = gql`
+  query GetQuizByCategory($getQuizByCategoryId: String!) {
+    getQuizByCategory(id: $getQuizByCategoryId) {
+      title
+      description
+      difficulty
+      is_finish
+      id
+    }
+  }
+`;
+
 export default function Quiz() {
   const { data } = useQuery<GetCategoriesQuery>(GET_CATEGORIES);
-  return (
-    <div>
-      <div className="flex justify-center mb-12">
-        {data &&
-          data?.getCategories.map((category) => (
-            <Category key={category.id} title={category.name} />
+  const { data: dataQuiz } = useQuery<GetAllQuizQuery>(GET_ALL_QUIZ);
+  const [getQuizByCategory, { data: dataQuizByCategory }] =
+    useLazyQuery<GetQuizByCategoryQuery>(GET_QUIZ_BY_CATEGORY);
+  const [selectedCategory, setSelectedCategory] = useState<string>("0");
+
+  const handleClick = (id: string) => {
+    setSelectedCategory(id);
+    getQuizByCategory({ variables: { getQuizByCategoryId: id } });
+  };
+
+  if (selectedCategory !== "0") {
+    return (
+      <div>
+        <div className="flex justify-center mb-12">
+          <Category
+            title="Tous"
+            onClick={handleClick}
+            id="0"
+            isSelected={selectedCategory === "0"}
+          />
+          {data &&
+            data?.getCategories.map((category) => (
+              <Category
+                key={category.id}
+                title={category.name}
+                onClick={handleClick}
+                id={category.id}
+                isSelected={selectedCategory === category.id}
+              />
+            ))}
+        </div>
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {dataQuizByCategory?.getQuizByCategory.map((quiz) => (
+            <CardQuiz
+              key={quiz.id}
+              title={quiz.title}
+              id={quiz.id}
+              difficulty={quiz.difficulty}
+              description={quiz.description}
+            />
           ))}
+        </div>
       </div>
-      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        <CardQuiz title="Quiz 1" id="1" />
-        <CardQuiz title="Quiz 2" id="2" />
-        <CardQuiz title="Quiz 3" id="3" />
-        <CardQuiz title="Quiz 4" id="4" />
-        <CardQuiz title="Quiz 5" id="5" />
-        <CardQuiz title="Quiz 6" id="6" />
+    );
+  } else {
+    return (
+      <div>
+        <div className="flex justify-center mb-12">
+          <Category
+            title="Tous"
+            onClick={handleClick}
+            id="0"
+            isSelected={selectedCategory === "0"}
+          />
+          {data &&
+            data?.getCategories.map((category) => (
+              <Category
+                key={category.id}
+                title={category.name}
+                onClick={handleClick}
+                id={category.id}
+                isSelected={selectedCategory === category.id}
+              />
+            ))}
+        </div>
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {dataQuiz?.getAllQuiz.map((quiz) => (
+            <CardQuiz
+              key={quiz.id}
+              title={quiz.title}
+              id={quiz.id}
+              difficulty={quiz.difficulty}
+              description={quiz.description}
+            />
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }

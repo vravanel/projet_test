@@ -14,6 +14,9 @@ import { Question } from "../entities/question";
 export class editOrCreateQuestion {
   @Field()
   title!: string;
+
+  @Field()
+  quizId!: string;
 }
 
 @Resolver(Question)
@@ -44,5 +47,10 @@ export class QuestionResolver {
   @Mutation(() => Question)
   deleteQuestion(@Arg("id", () => ID) id: string) {
     return Question.deleteQuestion(id);
+  }
+
+  @Query(() => [Question])
+  getQuestionsByQuiz(@Arg("id") id: string) {
+    return Question.getQuestionByQuiz(id);
   }
 }

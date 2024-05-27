@@ -14,6 +14,12 @@ import { Reponse } from "../entities/reponse";
 export class editOrCreateReponse {
   @Field()
   title!: string;
+
+  @Field({ defaultValue: false, nullable: true })
+  isValid!: boolean;
+
+  @Field()
+  questionId!: string;
 }
 
 @Resolver(Reponse)

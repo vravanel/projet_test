@@ -17,7 +17,9 @@
     },
     {
       "question": "Quelle est la différence entre require et include en PHP ?",
-      "answers": ["require génère une erreur fatale en cas d'échec, include produit seulement un avertissement", "require est utilisé pour inclure des fichiers obligatoires, include est utilisé pour inclure des fichiers facultatifs", "require inclut un fichier de manière statique, include de manière dynamique", "Aucune différence, ils sont interchangeables"]
+      "answers": ["require génère une erreur fatale en cas d'échec, include produit seulement un avertissement", 
+      "require est utilisé pour inclure des fichiers obligatoires, include est utilisé pour inclure des fichiers facultatifs", 
+      "require inclut un fichier de manière statique, include de manière dynamique", "Aucune différence, ils sont interchangeables"]
     },
     {
       "question": "Quel est l'avantage de l'utilisation de sessions en PHP ?",
@@ -25,15 +27,20 @@
     },
     {
       "question": "Quelle est la différence entre GET et POST en PHP ?",
-      "answers": ["GET envoie les données via l'URL, POST les envoie dans le corps de la requête", "GET est utilisé pour les formulaires de soumission, POST pour les liens hypertexte", "GET est plus sécurisé que POST", "Aucune différence, ils sont utilisés de manière interchangeable"]
+      "answers": ["GET envoie les données via l'URL, POST les envoie dans le corps de la requête", 
+      "GET est utilisé pour les formulaires de soumission, POST pour les liens hypertexte", 
+      "GET est plus sécurisé que POST", "Aucune différence, ils sont utilisés de manière interchangeable"]
     },
     {
       "question": "Quel est le but de la fonction var_dump() en PHP ?",
-      "answers": ["Afficher les informations sur une variable, y compris son type et sa valeur", "Effectuer une redirection HTTP", "Comparer deux variables", "Exécuter une requête SQL"]
+      "answers": ["Afficher les informations sur une variable, y compris son type et sa valeur", 
+      "Effectuer une redirection HTTP", "Comparer deux variables", "Exécuter une requête SQL"]
     },
     {
       "question": "Qu'est-ce que le concept de MVC en développement web PHP ?",
-      "answers": ["Modèle-Vue-Contrôleur, une architecture logicielle pour concevoir des applications web", "Minifier, Valider, Créer, les étapes du développement web", "Modulariser, Valider, Compresser, une méthode de développement", "Mise à jour, Validation, Compilation, les étapes du processus de développement"]
+      "answers": ["Modèle-Vue-Contrôleur, une architecture logicielle pour concevoir des applications web", 
+      "Minifier, Valider, Créer, les étapes du développement web", "Modulariser, Valider, Compresser, une méthode de développement",
+       "Mise à jour, Validation, Compilation, les étapes du processus de développement"]
     },
     {
       "question": "Comment se connecter à une base de données MySQL en PHP ?",

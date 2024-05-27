@@ -5,12 +5,35 @@ import Timer from "@/components/Timer";
 import FormGroup from "@mui/material/FormGroup";
 import { Grid, Button } from "@mui/material";
 import { useState, useEffect } from "react";
-import data from "../data/data.json";
+import { gql, useQuery } from "@apollo/client";
+import { useRouter } from "next/router";
+
+const GET_QUESTIONS_BY_QUIZ = gql`
+  query GetQuestionsByQuiz($getQuestionsByQuizId: String!) {
+    getQuestionsByQuiz(id: $getQuestionsByQuizId) {
+      id
+      title
+      reponses {
+        id
+        isValid
+        title
+      }
+    }
+  }
+`;
 
 export default function Quiz() {
+  const router = useRouter();
+  const { id } = router.query;
   const [progressValue, setProgressValue] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [resetTimer, setResetTimer] = useState(false);
+  const { data } = useQuery(GET_QUESTIONS_BY_QUIZ, {
+    variables: {
+      getQuestionsByQuizId: id,
+    },
+  });
+
   const handleNext = () => {
     setProgressValue(progressValue + 10);
     setCurrentQuestion(currentQuestion + 1);
@@ -31,12 +54,14 @@ export default function Quiz() {
       <div className="flex justify-end mt-10 mr-20">
         <Timer resetTimer={resetTimer} onTimeFinish={handleNext} />
       </div>
-      {data.map(
-        (question, index) =>
-          currentQuestion === index && (
-            <Question key={index} question={question.question} />
-          )
-      )}
+      <div className="flex justify-center">
+        {data?.getQuestionsByQuiz.map(
+          (question, index) =>
+            currentQuestion === index && (
+              <Question key={index} question={question.title} />
+            )
+        )}
+      </div>
       <ProgressQuiz number={progressValue} />
       <div className="flex justify-center mt-20">
         <FormGroup>
@@ -45,11 +70,11 @@ export default function Quiz() {
             rowSpacing={6}
             columnSpacing={{ xs: 2, sm: 4, md: 6 }}
           >
-            {data.map(
+            {data?.getQuestionsByQuiz.map(
               (question, index) =>
                 currentQuestion === index &&
-                question.answers.map((answer, index) => (
-                  <Response key={index} reponse={answer} />
+                question.reponses.map((reponse, index) => (
+                  <Response key={index} reponse={reponse.title} />
                 ))
             )}
           </Grid>

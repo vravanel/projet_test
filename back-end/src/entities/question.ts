@@ -46,6 +46,8 @@ export class Question extends BaseEntity {
     questionData: editOrCreateQuestion
   ): Promise<Question> {
     const question = new Question(questionData);
+    const quiz = await Quiz.getQuizById(questionData.quizId);
+    question.quiz = quiz;
     const saveQuestion = await question.save();
     return saveQuestion;
   }
@@ -82,5 +84,14 @@ export class Question extends BaseEntity {
     if (affected === 0) {
       throw new Error("La question n'existe pas ");
     }
+  }
+
+  static async getQuestionByQuiz(id: string): Promise<Question[]> {
+    const questions = await Question.find({
+      where: { quiz: { id: id } },
+      relations: ["quiz", "reponses"],
+    });
+
+    return questions;
   }
 }

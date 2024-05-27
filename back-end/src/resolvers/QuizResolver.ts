@@ -27,7 +27,7 @@ export class editOrCreateQuiz {
   @Field()
   image!: string;
 
-  @Field({ nullable: true })
+  @Field()
   categoryId!: string;
 }
 
@@ -56,5 +56,10 @@ export class QuizResolver {
   @Mutation(() => Quiz)
   deleteQuiz(@Arg("id", () => ID) id: string) {
     return Quiz.deleteQuiz(id);
+  }
+
+  @Query(() => [Quiz])
+  getQuizByCategory(@Arg("id") id: string) {
+    return Quiz.getQuizByCategory(id);
   }
 }

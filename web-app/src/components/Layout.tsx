@@ -23,7 +23,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         )}
         <main
           className={`w-full ${
-            isMobile ? "pt-16" : "w-[80%] rounded-2xl h-[95vh] m-auto mx-0 p-8"
+            isMobile ? "pt-16" : "w-[79%] rounded-2xl h-[95vh] m-auto mx-0 p-8"
           }`}
         >
           {children}

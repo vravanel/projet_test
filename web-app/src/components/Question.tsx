@@ -1,14 +1,30 @@
-interface props {
+import React from "react";
+import { Box, Typography } from "@mui/material";
+
+interface Props {
   question: string;
 }
 
-export const Question: React.FC<props> = ({ question }) => {
+export const Question: React.FC<Props> = ({ question }) => {
   return (
-    <div className="flex justify-center mt-5">
-      <div className="question border-2 border-rose-600 p-3 rounded-md text-xl">
+    <Box
+      display="flex"
+      justifyContent="center"
+      mt={5}
+      p={3}
+      borderRadius={2}
+      border={2}
+      borderColor="#38369A"
+      bgcolor="#F8F7F4"
+      sx={{
+        boxShadow: 3,
+        maxWidth: 600,
+      }}
+    >
+      <Typography variant="h5" color="#38369A" align="center">
         {question}
-      </div>
-    </div>
+      </Typography>
+    </Box>
   );
 };
 

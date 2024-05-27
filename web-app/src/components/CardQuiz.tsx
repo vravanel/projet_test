@@ -1,15 +1,17 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { CardActionArea, CardActions } from "@mui/material";
+import { CardActionArea, CardActions, Chip } from "@mui/material";
 import Link from "next/link";
 
 interface Props {
   title: string;
   id: string;
+  difficulty: string;
+  description: string;
 }
 
-const CardQuiz: React.FC<Props> = ({ title, id }) => {
+const CardQuiz: React.FC<Props> = ({ title, id, difficulty, description }) => {
   return (
     <Link
       href={`quiz/${id}`}
@@ -17,14 +19,12 @@ const CardQuiz: React.FC<Props> = ({ title, id }) => {
     >
       <Card className="rounded-xl bg-[#F5EE9E] shadow-lg hover:shadow-xl">
         <CardActionArea>
+          <Chip label={difficulty} color="secondary" />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               {title}
             </Typography>
-            <Typography variant="body2">
-              Lizards are a widespread group of squamate reptiles, with over
-              6,000 species
-            </Typography>
+            <Typography variant="body2">{description}</Typography>
           </CardContent>
         </CardActionArea>
         <CardActions></CardActions>

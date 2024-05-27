@@ -66,12 +66,13 @@ export type MutationNewCategoryArgs = {
 
 
 export type MutationNewQuestionArgs = {
+  quizId: Scalars['String']['input'];
   title: Scalars['String']['input'];
 };
 
 
 export type MutationNewQuizArgs = {
-  categoryId?: InputMaybe<Scalars['String']['input']>;
+  categoryId: Scalars['String']['input'];
   description: Scalars['String']['input'];
   difficulty: Scalars['String']['input'];
   image: Scalars['String']['input'];
@@ -81,6 +82,8 @@ export type MutationNewQuizArgs = {
 
 
 export type MutationNewReponseArgs = {
+  isValid?: InputMaybe<Scalars['Boolean']['input']>;
+  questionId: Scalars['String']['input'];
   title: Scalars['String']['input'];
 };
 
@@ -93,12 +96,13 @@ export type MutationUpdateCategoryArgs = {
 
 export type MutationUpdateQuestionArgs = {
   id: Scalars['ID']['input'];
+  quizId: Scalars['String']['input'];
   title: Scalars['String']['input'];
 };
 
 
 export type MutationUpdateQuizArgs = {
-  categoryId?: InputMaybe<Scalars['String']['input']>;
+  categoryId: Scalars['String']['input'];
   description: Scalars['String']['input'];
   difficulty: Scalars['String']['input'];
   id: Scalars['ID']['input'];
@@ -110,6 +114,8 @@ export type MutationUpdateQuizArgs = {
 
 export type MutationUpdateReponseArgs = {
   id: Scalars['ID']['input'];
+  isValid?: InputMaybe<Scalars['Boolean']['input']>;
+  questionId: Scalars['String']['input'];
   title: Scalars['String']['input'];
 };
 
@@ -120,7 +126,9 @@ export type Query = {
   getCategory: Category;
   getQuestion: Question;
   getQuestions: Array<Question>;
+  getQuestionsByQuiz: Array<Question>;
   getQuiz: Quiz;
+  getQuizByCategory: Array<Quiz>;
   getReponse: Reponse;
   getReponses: Array<Reponse>;
 };
@@ -136,8 +144,18 @@ export type QueryGetQuestionArgs = {
 };
 
 
+export type QueryGetQuestionsByQuizArgs = {
+  id: Scalars['String']['input'];
+};
+
+
 export type QueryGetQuizArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QueryGetQuizByCategoryArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -168,6 +186,7 @@ export type Quiz = {
 export type Reponse = {
   __typename?: 'Reponse';
   id: Scalars['ID']['output'];
+  isValid?: Maybe<Scalars['Boolean']['output']>;
   question: Question;
   title: Scalars['String']['output'];
 };
@@ -177,5 +196,27 @@ export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetCategoriesQuery = { __typename?: 'Query', getCategories: Array<{ __typename?: 'Category', id: string, name: string }> };
 
+export type GetAllQuizQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllQuizQuery = { __typename?: 'Query', getAllQuiz: Array<{ __typename?: 'Quiz', id: string, title: string, description: string, is_finish: boolean, difficulty: string }> };
+
+export type GetQuizByCategoryQueryVariables = Exact<{
+  getQuizByCategoryId: Scalars['String']['input'];
+}>;
+
+
+export type GetQuizByCategoryQuery = { __typename?: 'Query', getQuizByCategory: Array<{ __typename?: 'Quiz', title: string, description: string, difficulty: string, is_finish: boolean, id: string }> };
+
+export type GetQuestionsByQuizQueryVariables = Exact<{
+  getQuestionsByQuizId: Scalars['String']['input'];
+}>;
+
+
+export type GetQuestionsByQuizQuery = { __typename?: 'Query', getQuestionsByQuiz: Array<{ __typename?: 'Question', id: string, title: string, reponses: Array<{ __typename?: 'Reponse', id: string, isValid?: boolean | null, title: string }> }> };
+
 
 export const GetCategoriesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getCategories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCategories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<GetCategoriesQuery, GetCategoriesQueryVariables>;
+export const GetAllQuizDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllQuiz"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllQuiz"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"is_finish"}},{"kind":"Field","name":{"kind":"Name","value":"difficulty"}}]}}]}}]} as unknown as DocumentNode<GetAllQuizQuery, GetAllQuizQueryVariables>;
+export const GetQuizByCategoryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetQuizByCategory"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"getQuizByCategoryId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getQuizByCategory"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"getQuizByCategoryId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"difficulty"}},{"kind":"Field","name":{"kind":"Name","value":"is_finish"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<GetQuizByCategoryQuery, GetQuizByCategoryQueryVariables>;
+export const GetQuestionsByQuizDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetQuestionsByQuiz"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"getQuestionsByQuizId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getQuestionsByQuiz"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"getQuestionsByQuizId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"reponses"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"isValid"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]}}]} as unknown as DocumentNode<GetQuestionsByQuizQuery, GetQuestionsByQuizQueryVariables>;
