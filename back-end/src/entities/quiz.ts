@@ -11,6 +11,7 @@ import { Category } from "./category";
 import { editOrCreateQuiz } from "../resolvers/QuizResolver";
 import { editOrCreateCategory } from "../resolvers/CategoryResolver";
 import { Question } from "./question";
+import User from "./user";
 
 @ObjectType()
 @Entity()
@@ -48,6 +49,12 @@ export class Quiz extends BaseEntity {
   @OneToMany(() => Question, (question) => question.quiz)
   @Field(() => [Question])
   questions!: Question[];
+
+  @ManyToOne(() => User, (user) => user.quizz, {
+    eager: true,
+  })
+  @Field(() => User)
+  user!: User;
 
   constructor(quiz?: Partial<Quiz>) {
     super();
