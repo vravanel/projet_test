@@ -11,7 +11,7 @@ body{
     height: 100vh;
     background-color: #38369A;
     box-sizing: border-box;
-    padding-top: 2rem;
+    font-family: 'Public Sans', sans-serif;
 }
 
 main {

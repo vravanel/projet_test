@@ -8,9 +8,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const apolloClient = createApolloClient();
   return (
     <ApolloProvider client={apolloClient}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <Component {...pageProps} />
     </ApolloProvider>
   );
 }

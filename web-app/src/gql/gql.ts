@@ -13,9 +13,12 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n  query GetAllQuiz {\n    getAllQuiz {\n      id\n      title\n      description\n      isFinish\n      difficulty\n    }\n  }\n": types.GetAllQuizDocument,
+    "\n  query GetQuizWithQuestions($quizId: String!) {\n    getQuizWithQuestions(id: $quizId) {\n      id\n      title\n      isFinish\n      difficulty\n      image\n      description\n      questions {\n        id\n        title\n        reponses {\n          id\n          isValid\n          title\n        }\n      }\n    }\n  }\n": types.GetQuizWithQuestionsDocument,
+    "\n  mutation UpdateQuestion(\n    $title: String!\n    $quizId: String!\n    $updateQuestionId: ID!\n  ) {\n    updateQuestion(title: $title, quizId: $quizId, id: $updateQuestionId) {\n      id\n      title\n    }\n  }\n": types.UpdateQuestionDocument,
+    "\n  mutation NewQuiz(\n    $title: String!\n    $description: String!\n    $difficulty: String!\n    $image: String!\n    $categoryId: String!\n    $isFinish: Boolean!\n  ) {\n    newQuiz(\n      title: $title\n      description: $description\n      difficulty: $difficulty\n      image: $image\n      categoryId: $categoryId\n      isFinish: $isFinish\n    ) {\n      description\n      difficulty\n      id\n      image\n      title\n      isFinish\n    }\n  }\n": types.NewQuizDocument,
     "\n  query getCategories {\n    getCategories {\n      id\n      name\n    }\n  }\n": types.GetCategoriesDocument,
-    "\n  query GetAllQuiz {\n    getAllQuiz {\n      id\n      title\n      description\n      is_finish\n      difficulty\n    }\n  }\n": types.GetAllQuizDocument,
-    "\n  query GetQuizByCategory($getQuizByCategoryId: String!) {\n    getQuizByCategory(id: $getQuizByCategoryId) {\n      title\n      description\n      difficulty\n      is_finish\n      id\n    }\n  }\n": types.GetQuizByCategoryDocument,
+    "\n  query GetQuizByCategory($getQuizByCategoryId: String!) {\n    getQuizByCategory(id: $getQuizByCategoryId) {\n      title\n      description\n      difficulty\n      isFinish\n      id\n    }\n  }\n": types.GetQuizByCategoryDocument,
     "\n  query GetQuestionsByQuiz($getQuestionsByQuizId: String!) {\n    getQuestionsByQuiz(id: $getQuestionsByQuizId) {\n      id\n      title\n      reponses {\n        id\n        isValid\n        title\n      }\n    }\n  }\n": types.GetQuestionsByQuizDocument,
 };
 
@@ -36,15 +39,27 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  query GetAllQuiz {\n    getAllQuiz {\n      id\n      title\n      description\n      isFinish\n      difficulty\n    }\n  }\n"): (typeof documents)["\n  query GetAllQuiz {\n    getAllQuiz {\n      id\n      title\n      description\n      isFinish\n      difficulty\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetQuizWithQuestions($quizId: String!) {\n    getQuizWithQuestions(id: $quizId) {\n      id\n      title\n      isFinish\n      difficulty\n      image\n      description\n      questions {\n        id\n        title\n        reponses {\n          id\n          isValid\n          title\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetQuizWithQuestions($quizId: String!) {\n    getQuizWithQuestions(id: $quizId) {\n      id\n      title\n      isFinish\n      difficulty\n      image\n      description\n      questions {\n        id\n        title\n        reponses {\n          id\n          isValid\n          title\n        }\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation UpdateQuestion(\n    $title: String!\n    $quizId: String!\n    $updateQuestionId: ID!\n  ) {\n    updateQuestion(title: $title, quizId: $quizId, id: $updateQuestionId) {\n      id\n      title\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateQuestion(\n    $title: String!\n    $quizId: String!\n    $updateQuestionId: ID!\n  ) {\n    updateQuestion(title: $title, quizId: $quizId, id: $updateQuestionId) {\n      id\n      title\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation NewQuiz(\n    $title: String!\n    $description: String!\n    $difficulty: String!\n    $image: String!\n    $categoryId: String!\n    $isFinish: Boolean!\n  ) {\n    newQuiz(\n      title: $title\n      description: $description\n      difficulty: $difficulty\n      image: $image\n      categoryId: $categoryId\n      isFinish: $isFinish\n    ) {\n      description\n      difficulty\n      id\n      image\n      title\n      isFinish\n    }\n  }\n"): (typeof documents)["\n  mutation NewQuiz(\n    $title: String!\n    $description: String!\n    $difficulty: String!\n    $image: String!\n    $categoryId: String!\n    $isFinish: Boolean!\n  ) {\n    newQuiz(\n      title: $title\n      description: $description\n      difficulty: $difficulty\n      image: $image\n      categoryId: $categoryId\n      isFinish: $isFinish\n    ) {\n      description\n      difficulty\n      id\n      image\n      title\n      isFinish\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  query getCategories {\n    getCategories {\n      id\n      name\n    }\n  }\n"): (typeof documents)["\n  query getCategories {\n    getCategories {\n      id\n      name\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query GetAllQuiz {\n    getAllQuiz {\n      id\n      title\n      description\n      is_finish\n      difficulty\n    }\n  }\n"): (typeof documents)["\n  query GetAllQuiz {\n    getAllQuiz {\n      id\n      title\n      description\n      is_finish\n      difficulty\n    }\n  }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  query GetQuizByCategory($getQuizByCategoryId: String!) {\n    getQuizByCategory(id: $getQuizByCategoryId) {\n      title\n      description\n      difficulty\n      is_finish\n      id\n    }\n  }\n"): (typeof documents)["\n  query GetQuizByCategory($getQuizByCategoryId: String!) {\n    getQuizByCategory(id: $getQuizByCategoryId) {\n      title\n      description\n      difficulty\n      is_finish\n      id\n    }\n  }\n"];
+export function graphql(source: "\n  query GetQuizByCategory($getQuizByCategoryId: String!) {\n    getQuizByCategory(id: $getQuizByCategoryId) {\n      title\n      description\n      difficulty\n      isFinish\n      id\n    }\n  }\n"): (typeof documents)["\n  query GetQuizByCategory($getQuizByCategoryId: String!) {\n    getQuizByCategory(id: $getQuizByCategoryId) {\n      title\n      description\n      difficulty\n      isFinish\n      id\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

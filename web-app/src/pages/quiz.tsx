@@ -8,7 +8,7 @@ import {
 import { gql, useQuery, useLazyQuery } from "@apollo/client";
 import { useState } from "react";
 
-const GET_CATEGORIES = gql`
+export const GET_CATEGORIES = gql`
   query getCategories {
     getCategories {
       id
@@ -23,7 +23,7 @@ const GET_ALL_QUIZ = gql`
       id
       title
       description
-      is_finish
+      isFinish
       difficulty
     }
   }
@@ -35,7 +35,7 @@ const GET_QUIZ_BY_CATEGORY = gql`
       title
       description
       difficulty
-      is_finish
+      isFinish
       id
     }
   }
