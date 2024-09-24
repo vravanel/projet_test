@@ -1,81 +1,77 @@
 import {
   TextField,
   Typography,
-  List,
-  ListItem,
+  Stack,
   Button,
-  ListItemText,
-  FormControlLabel,
-  Checkbox,
+  InputLabel,
+  MenuItem,
 } from "@mui/material";
-
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import Layout from "@/components/Admin/Layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  UpdateQuestionMutation,
-  UpdateQuestionMutationVariables,
+  GetQuizQuery,
+  GetCategoriesQuery,
+  UpdateQuizMutationVariables,
+  UpdateQuizMutation,
 } from "@/gql/graphql";
+import { GET_CATEGORIES } from "@/pages/quiz";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { GET_ALL_QUIZ } from "@/components/Admin/QuizTable";
 
-// const GET_QUIZ_WITH_QUESTIONS_ADMIN = gql`
-//   query GetQuizWithQuestions($quizId: String!) {
-//     getQuizWithQuestions(id: $quizId) {
-//       id
-//       title
-//       isFinish
-//       difficulty
-//       image
-//       description
-//       questions {
-//         id
-//         title
-//         reponses {
-//           id
-//           isValid
-//           title
-//         }
-//       }
-//     }
-//   }
-// `;
-
-const UPDATE_QUESTION = gql`
-  mutation UpdateQuestion(
-    $title: String!
-    $quizId: String!
-    $updateQuestionId: ID!
-  ) {
-    updateQuestion(title: $title, quizId: $quizId, id: $updateQuestionId) {
-      id
-      title
-    }
-  }
-`;
-
-export const CREATE_QUIZ = gql`
-  mutation NewQuiz(
+const UPDATE_QUIZ = gql`
+  mutation UpdateQuiz(
     $title: String!
     $description: String!
+    $isFinish: Boolean!
     $difficulty: String!
     $image: String!
     $categoryId: String!
-    $isFinish: Boolean!
+    $updateQuizId: ID!
   ) {
-    newQuiz(
+    updateQuiz(
       title: $title
       description: $description
+      isFinish: $isFinish
       difficulty: $difficulty
       image: $image
       categoryId: $categoryId
-      isFinish: $isFinish
+      id: $updateQuizId
     ) {
       description
       difficulty
       id
       image
       title
+      category {
+        name
+      }
+    }
+  }
+`;
+
+const GET_QUIZ = gql`
+  query GetQuiz($getQuizId: ID!) {
+    getQuiz(id: $getQuizId) {
+      description
+      difficulty
+      id
+      image
       isFinish
+      title
+      category {
+        name
+        id
+      }
+    }
+  }
+`;
+
+const DELETE_QUIZ = gql`
+  mutation DeleteQuiz($deleteQuizId: ID!) {
+    deleteQuiz(id: $deleteQuizId) {
+      id
     }
   }
 `;
@@ -83,137 +79,187 @@ export const CREATE_QUIZ = gql`
 export default function Quiz() {
   const router = useRouter();
   const { id } = router.query;
-  // const { data, loading, error, refetch } = useQuery(
-  //   GET_QUIZ_WITH_QUESTIONS_ADMIN,
-  //   {
-  //     variables: { quizId: id },
-  //   }
-  // );
-  const [updateQuestion, setUpdateQuestion] = useMutation<
-    UpdateQuestionMutation,
-    UpdateQuestionMutationVariables
-  >(UPDATE_QUESTION);
-  const [questions, setQuestions] = useState(
-    data?.getQuizWithQuestions.questions || []
-  );
-  const [currentQuestionId, setCurrentQuestionId] = useState<string | null>(
-    null
-  );
+  const { data, refetch } = useQuery(GET_QUIZ, {
+    variables: {
+      getQuizId: id,
+    },
+  });
+  const { data: dataCategories } = useQuery<GetCategoriesQuery>(GET_CATEGORIES);
 
-  const [currentQuestionTitle, setCurrentQuestionTitle] = useState("");
+  const [category, setCategory] = useState<string>("");
+  const [deleteQuiz] = useMutation(DELETE_QUIZ);
 
-  if (loading) return <Typography>Loading...</Typography>;
-  if (error) return <Typography>Error: {error.message}</Typography>;
+  const [updateQuiz, setUpdateQuiz] = useState<UpdateQuizMutationVariables>({
+    title: "",
+    description: "",
+    isFinish: false,
+    difficulty: "",
+    categoryId: "",
+    image: "",
+    updateQuizId: "",
+  });
 
-  if (data) {
-    const quiz = data.getQuizWithQuestions;
-    const questions = data.getQuizWithQuestions.questions || [];
+  useEffect(() => {
+    if (data) {
+      const { getQuiz: quiz } = data;
+      setUpdateQuiz((prevState: any) => ({
+        ...prevState,
+        title: quiz.title,
+        description: quiz.description,
+        isFinish: false,
+        difficulty: quiz.difficulty,
+        categoryId: quiz.category.id,
+        image: quiz.image,
+        updateQuizId: quiz.id,
+      }));
+      setCategory(quiz.category.id);
+    }
+  }, [data]);
 
-    return (
-      <Layout>
-        <Typography variant="h4" className="text-2xl font-bold mb-4">
-          Gestion du Quiz
-        </Typography>
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setUpdateQuiz((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
-        <form className="space-y-4">
-          <TextField
-            id="quiz-title"
-            label="Titre du Quiz"
-            defaultValue={quiz.title || ""}
-            fullWidth
-            variant="outlined"
-            className="mb-4"
-          />
-          <TextField
-            id="quiz-description"
-            label="Description"
-            defaultValue={quiz.description || ""}
-            multiline
-            rows={4}
-            fullWidth
-            variant="outlined"
-            className="mb-4"
-          />
-          <TextField
-            id="quiz-difficulty"
-            label="Difficulté"
-            defaultValue={quiz.difficulty || ""}
-            fullWidth
-            variant="outlined"
-            className="mb-4"
-          />
+  const handleChangeSelect = (event: SelectChangeEvent) => {
+    const { value } = event.target;
+    setCategory(value);
+    setUpdateQuiz((prevState) => ({
+      ...prevState,
+      categoryId: value,
+    }));
+  };
+  const [modifyQuiz] = useMutation<
+    UpdateQuizMutation,
+    UpdateQuizMutationVariables
+  >(UPDATE_QUIZ);
+  const modifyNewQuiz = async () => {
+    try {
+      const { data: dataQuiz } = await modifyQuiz({
+        variables: updateQuiz,
+      });
+      if (dataQuiz) {
+        router.push(`/admin/quiz`);
+      }
+    } catch (error) {
+      console.error("Error Quiz : ", error);
+    }
+  };
 
-          <Typography variant="h5" className="text-xl font-semibold mb-2">
-            Questions
-          </Typography>
-          <List>
-            {questions.map((question) => (
-              <div key={question.id} className="mb-4">
-                <ListItem>
-                  <ListItemText primary={question.title} />
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    className="ml-2"
-                    onClick={() => {
-                      setCurrentQuestionId(question.id);
-                      setCurrentQuestionTitle(question.title);
-                    }}
-                  >
-                    Modifier
-                  </Button>
-                  <Button variant="outlined" color="secondary" className="ml-2">
-                    Supprimer
-                  </Button>
-                </ListItem>
+  const handleDelete = async () => {
+    try {
+      await deleteQuiz({
+        variables: {
+          deleteQuizId: data.getQuiz.id,
+        },
+        refetchQueries: [{ query: GET_ALL_QUIZ }],
+      });
+      router.push("/admin/quiz");
+    } catch (error) {
+      console.error("Error Quiz :", error);
+    }
+  };
 
-                <Typography variant="h6" className="text-lg font-medium mt-2">
-                  Réponses
-                </Typography>
-                <List className="pl-4">
-                  {question.reponses.map((response) => (
-                    <ListItem key={response.id} className="flex items-center">
-                      <ListItemText primary={response.title} />
-                      <FormControlLabel
-                        control={<Checkbox checked={response.isValid} />}
-                        label="Valide"
-                        className="ml-2"
-                      />
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        className="ml-2"
-                      >
-                        Modifier
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        color="secondary"
-                        className="ml-2"
-                      >
-                        Supprimer
-                      </Button>
-                    </ListItem>
-                  ))}
-                </List>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className="mt-2"
-                  onClick={() => {
-                    setCurrentQuestionId(question.id);
-                  }}
-                >
-                  Ajouter une Réponse
-                </Button>
-              </div>
-            ))}
-          </List>
-          <Button variant="contained" color="primary" className="mt-4">
-            Ajouter une Question
-          </Button>
-        </form>
-      </Layout>
-    );
+  const handleSubmit = () => {
+    modifyNewQuiz();
+  };
+
+  if (!data) {
+    return <div>Chargement...</div>;
   }
+
+  if (!data) {
+    return <div>Chargement...</div>;
+  }
+
+  return (
+    <Layout>
+      <Typography variant="h4" className="text-2xl font-bold mb-4">
+        Gestion du Quiz
+      </Typography>
+
+      <form className="space-y-4">
+        <TextField
+          id="quiz-title"
+          name="title"
+          fullWidth
+          variant="outlined"
+          className="mb-4"
+          value={updateQuiz.title}
+          onChange={handleChange}
+        />
+        <TextField
+          id="quiz-description"
+          multiline
+          name="description"
+          rows={4}
+          fullWidth
+          variant="outlined"
+          className="mb-4"
+          value={updateQuiz.description}
+          onChange={handleChange}
+        />
+        <TextField
+          id="quiz-difficulty"
+          fullWidth
+          name="difficulty"
+          variant="outlined"
+          className="mb-4"
+          value={updateQuiz.difficulty}
+          onChange={handleChange}
+        />
+        <Stack direction="row" marginTop="2rem">
+          <Stack direction="column" width="25%">
+            <InputLabel id="demo-simple-select-label">Catégories</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={category}
+              name="categoryId"
+              label="Category"
+              onChange={handleChangeSelect}
+            >
+              {dataCategories?.getCategories.map((category) => (
+                <MenuItem key={category.id} value={category.id}>
+                  {category.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </Stack>
+          <Stack direction="column" marginLeft="2rem">
+            <InputLabel id="demo-simple-select-label" className="mb-2">
+              Upload Image
+            </InputLabel>
+            <TextField
+              required
+              name="image"
+              id="outlined-required"
+              value={updateQuiz.image}
+              onChange={handleChange}
+            />
+          </Stack>
+        </Stack>
+
+        <Button
+          variant="contained"
+          color="primary"
+          className="mt-4"
+          onClick={handleSubmit}
+        >
+          Modifier le Quiz
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          className="mt-4"
+          onClick={handleDelete}
+        >
+          Supprimer le Quiz
+        </Button>
+      </form>
+    </Layout>
+  );
 }

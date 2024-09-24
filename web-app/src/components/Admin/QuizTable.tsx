@@ -11,7 +11,7 @@ import { gql, useQuery } from "@apollo/client";
 import { GetAllQuizQuery } from "@/gql/graphql";
 import Link from "next/link";
 
-const GET_ALL_QUIZ = gql`
+export const GET_ALL_QUIZ = gql`
   query GetAllQuiz {
     getAllQuiz {
       id

@@ -16,7 +16,9 @@ const documents = {
     "\nquery GetCategories {\n  getCategories {\n    id\n    name\n  }\n}\n": types.GetCategoriesDocument,
     "\n  query GetAllQuiz {\n    getAllQuiz {\n      id\n      title\n      description\n      isFinish\n      difficulty\n    }\n  }\n": types.GetAllQuizDocument,
     "\nmutation NewCategory($name: String!) {\n  newCategory(name: $name) {\n    id\n    name\n  }\n}\n": types.NewCategoryDocument,
-    "\n  mutation UpdateQuestion(\n    $title: String!\n    $quizId: String!\n    $updateQuestionId: ID!\n  ) {\n    updateQuestion(title: $title, quizId: $quizId, id: $updateQuestionId) {\n      id\n      title\n    }\n  }\n": types.UpdateQuestionDocument,
+    "\nmutation UpdateQuiz($title: String!, $description: String!, $isFinish: Boolean!, $difficulty: String!, $image: String!, $categoryId: String!, $updateQuizId: ID!) {\n  updateQuiz(title: $title, description: $description, isFinish: $isFinish, difficulty: $difficulty, image: $image, categoryId: $categoryId, id: $updateQuizId) {\n    description\n    difficulty\n    id\n    image\n    title\n    category {\n      name\n    }\n  }\n}\n": types.UpdateQuizDocument,
+    "\nquery GetQuiz($getQuizId: ID!) {\n  getQuiz(id: $getQuizId) {\n    description\n    difficulty\n    id\n    image\n    isFinish\n    title\n    category {\n      name\n      id\n    }\n  }\n}\n": types.GetQuizDocument,
+    "\nmutation DeleteQuiz($deleteQuizId: ID!) {\n  deleteQuiz(id: $deleteQuizId) {\n    id\n  }\n}\n": types.DeleteQuizDocument,
     "\n  mutation NewQuiz(\n    $title: String!\n    $description: String!\n    $difficulty: String!\n    $image: String!\n    $categoryId: String!\n    $isFinish: Boolean!\n  ) {\n    newQuiz(\n      title: $title\n      description: $description\n      difficulty: $difficulty\n      image: $image\n      categoryId: $categoryId\n      isFinish: $isFinish\n    ) {\n      description\n      difficulty\n      id\n      image\n      title\n      isFinish\n    }\n  }\n": types.NewQuizDocument,
     "\n  query getCategories {\n    getCategories {\n      id\n      name\n    }\n  }\n": types.GetCategoriesDocument,
     "\n  query GetQuizByCategory($getQuizByCategoryId: String!) {\n    getQuizByCategory(id: $getQuizByCategoryId) {\n      title\n      description\n      difficulty\n      isFinish\n      id\n    }\n  }\n": types.GetQuizByCategoryDocument,
@@ -52,7 +54,15 @@ export function graphql(source: "\nmutation NewCategory($name: String!) {\n  new
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateQuestion(\n    $title: String!\n    $quizId: String!\n    $updateQuestionId: ID!\n  ) {\n    updateQuestion(title: $title, quizId: $quizId, id: $updateQuestionId) {\n      id\n      title\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateQuestion(\n    $title: String!\n    $quizId: String!\n    $updateQuestionId: ID!\n  ) {\n    updateQuestion(title: $title, quizId: $quizId, id: $updateQuestionId) {\n      id\n      title\n    }\n  }\n"];
+export function graphql(source: "\nmutation UpdateQuiz($title: String!, $description: String!, $isFinish: Boolean!, $difficulty: String!, $image: String!, $categoryId: String!, $updateQuizId: ID!) {\n  updateQuiz(title: $title, description: $description, isFinish: $isFinish, difficulty: $difficulty, image: $image, categoryId: $categoryId, id: $updateQuizId) {\n    description\n    difficulty\n    id\n    image\n    title\n    category {\n      name\n    }\n  }\n}\n"): (typeof documents)["\nmutation UpdateQuiz($title: String!, $description: String!, $isFinish: Boolean!, $difficulty: String!, $image: String!, $categoryId: String!, $updateQuizId: ID!) {\n  updateQuiz(title: $title, description: $description, isFinish: $isFinish, difficulty: $difficulty, image: $image, categoryId: $categoryId, id: $updateQuizId) {\n    description\n    difficulty\n    id\n    image\n    title\n    category {\n      name\n    }\n  }\n}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\nquery GetQuiz($getQuizId: ID!) {\n  getQuiz(id: $getQuizId) {\n    description\n    difficulty\n    id\n    image\n    isFinish\n    title\n    category {\n      name\n      id\n    }\n  }\n}\n"): (typeof documents)["\nquery GetQuiz($getQuizId: ID!) {\n  getQuiz(id: $getQuizId) {\n    description\n    difficulty\n    id\n    image\n    isFinish\n    title\n    category {\n      name\n      id\n    }\n  }\n}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\nmutation DeleteQuiz($deleteQuizId: ID!) {\n  deleteQuiz(id: $deleteQuizId) {\n    id\n  }\n}\n"): (typeof documents)["\nmutation DeleteQuiz($deleteQuizId: ID!) {\n  deleteQuiz(id: $deleteQuizId) {\n    id\n  }\n}\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

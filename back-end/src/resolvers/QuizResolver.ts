@@ -19,7 +19,7 @@ export class editOrCreateQuiz {
   description!: string;
 
   @Field()
-  is_finish!: boolean;
+  isFinish!: boolean;
 
   @Field()
   difficulty!: string;

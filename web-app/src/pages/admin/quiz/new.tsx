@@ -9,8 +9,35 @@ import {
   NewQuizMutation,
   NewQuizMutationVariables,
 } from "@/gql/graphql";
-import { CREATE_QUIZ } from "./[id]";
+import { gql } from "@apollo/client";
 import { useRouter } from "next/router";
+
+const CREATE_QUIZ = gql`
+  mutation NewQuiz(
+    $title: String!
+    $description: String!
+    $difficulty: String!
+    $image: String!
+    $categoryId: String!
+    $isFinish: Boolean!
+  ) {
+    newQuiz(
+      title: $title
+      description: $description
+      difficulty: $difficulty
+      image: $image
+      categoryId: $categoryId
+      isFinish: $isFinish
+    ) {
+      description
+      difficulty
+      id
+      image
+      title
+      isFinish
+    }
+  }
+`;
 
 export default function NewQuiz() {
   const router = useRouter();

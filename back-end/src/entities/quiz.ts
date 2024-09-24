@@ -30,7 +30,7 @@ export class Quiz extends BaseEntity {
 
   @Field()
   @Column({ default: false })
-  is_finish!: boolean;
+  isFinish!: boolean;
 
   @Field()
   @Column()
@@ -68,8 +68,8 @@ export class Quiz extends BaseEntity {
         throw new Error("La description est obligatoire");
       }
       this.description = quiz.description;
-      if (quiz.is_finish !== undefined) {
-        this.is_finish = quiz.is_finish;
+      if (quiz.isFinish !== undefined) {
+        this.isFinish = quiz.isFinish;
       }
       if (!quiz.difficulty) {
         throw new Error("La difficulté est obligatoire");
@@ -107,20 +107,23 @@ export class Quiz extends BaseEntity {
     id: string,
     quizData: Partial<editOrCreateQuiz>
   ): Promise<Quiz> {
-    const quiz = await Quiz.findOneBy({ id: id });
+    const quiz = await Quiz.getQuizById(id);
     if (!quiz) {
       throw new Error("Ce quiz n'existe pas");
     }
-    await Quiz.update(id, quizData);
-    await quiz?.reload();
+    Object.assign(quiz, quizData);
+    if (quizData.categoryId) {
+      quiz.category = await Category.getCategoryById(quizData.categoryId);
+    }
+    await quiz.save();
+    await quiz.reload();
     return quiz;
   }
 
-  static async deleteQuiz(id: string): Promise<void> {
-    const { affected } = await Quiz.delete(id);
-    if (affected === 0) {
-      throw new Error("La quiz n'existe pas ");
-    }
+  static async deleteQuiz(id: string): Promise<Quiz> {
+    const quiz = await Quiz.getQuizById(id);
+    await Quiz.delete(id);
+    return quiz;
   }
 
   static async getQuizByCategory(id: string): Promise<Quiz[]> {
