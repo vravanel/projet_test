@@ -18,27 +18,27 @@ import {
   UpdateQuestionMutationVariables,
 } from "@/gql/graphql";
 
-const GET_QUIZ_WITH_QUESTIONS_ADMIN = gql`
-  query GetQuizWithQuestions($quizId: String!) {
-    getQuizWithQuestions(id: $quizId) {
-      id
-      title
-      isFinish
-      difficulty
-      image
-      description
-      questions {
-        id
-        title
-        reponses {
-          id
-          isValid
-          title
-        }
-      }
-    }
-  }
-`;
+// const GET_QUIZ_WITH_QUESTIONS_ADMIN = gql`
+//   query GetQuizWithQuestions($quizId: String!) {
+//     getQuizWithQuestions(id: $quizId) {
+//       id
+//       title
+//       isFinish
+//       difficulty
+//       image
+//       description
+//       questions {
+//         id
+//         title
+//         reponses {
+//           id
+//           isValid
+//           title
+//         }
+//       }
+//     }
+//   }
+// `;
 
 const UPDATE_QUESTION = gql`
   mutation UpdateQuestion(
@@ -83,12 +83,12 @@ export const CREATE_QUIZ = gql`
 export default function Quiz() {
   const router = useRouter();
   const { id } = router.query;
-  const { data, loading, error, refetch } = useQuery(
-    GET_QUIZ_WITH_QUESTIONS_ADMIN,
-    {
-      variables: { quizId: id },
-    }
-  );
+  // const { data, loading, error, refetch } = useQuery(
+  //   GET_QUIZ_WITH_QUESTIONS_ADMIN,
+  //   {
+  //     variables: { quizId: id },
+  //   }
+  // );
   const [updateQuestion, setUpdateQuestion] = useMutation<
     UpdateQuestionMutation,
     UpdateQuestionMutationVariables
