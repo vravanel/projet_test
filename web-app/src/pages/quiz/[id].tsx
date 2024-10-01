@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import { gql, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 
-const GET_QUESTIONS_BY_QUIZ = gql`
+export const GET_QUESTIONS_BY_QUIZ = gql`
   query GetQuestionsByQuiz($getQuestionsByQuizId: String!) {
     getQuestionsByQuiz(id: $getQuestionsByQuizId) {
       id

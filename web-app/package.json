@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "@apollo/client": "^3.10.4",
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@mui/icons-material": "^5.15.19",
+    "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.15.15",
     "@nextui-org/react": "^2.3.4",
     "framer-motion": "^11.1.5",
@@ -26,6 +26,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/client-preset": "^4.2.6",
+    "@mui/types": "^7.2.17",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
