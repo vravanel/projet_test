@@ -9,6 +9,7 @@ import {
   ID,
 } from "type-graphql";
 import { Question } from "../entities/question";
+import { Reponse } from "../entities/reponse";
 
 @ArgsType()
 export class editOrCreateQuestion {
@@ -52,5 +53,10 @@ export class QuestionResolver {
   @Query(() => [Question])
   getQuestionsByQuiz(@Arg("id") id: string) {
     return Question.getQuestionByQuiz(id);
+  }
+
+  @Query(() => [Reponse])
+  getReponsesByQuestionId(@Arg("questionId") questionId: string) {
+    return Question.getReponsesByQuestionId(questionId);
   }
 }

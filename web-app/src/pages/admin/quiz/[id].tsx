@@ -260,8 +260,8 @@ export default function Quiz() {
         >
           Supprimer le Quiz
         </Button>
-        <AddQuestion />
       </form>
+        <AddQuestion />
     </Layout>
   );
 }

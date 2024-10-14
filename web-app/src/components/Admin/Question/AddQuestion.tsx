@@ -19,6 +19,14 @@ const ADD_QUESTION = gql`
   }
 `;
 
+const DELETE_QUESTION = gql`
+mutation DeleteQuestion($deleteQuestionId: ID!) {
+  deleteQuestion(id: $deleteQuestionId) {
+    id
+  }
+}
+`
+
 export default function AddQuestion() {
     const router = useRouter();
     const { id } = router.query;
@@ -28,6 +36,8 @@ export default function AddQuestion() {
     title : "",
     quizId: "",
   })
+
+  const [deleteQuestion] = useMutation(DELETE_QUESTION);
 
   const { data, refetch } = useQuery(GET_QUESTIONS_BY_QUIZ, {
     variables: {
@@ -74,6 +84,19 @@ export default function AddQuestion() {
     createNewQuestion();
   }
 
+  const handleDelete = async (questionId : string) => {
+    try {
+      await deleteQuestion({
+       variables: {
+         deleteQuestionId : questionId
+       },
+      });
+    } catch (error) {
+      console.error("Error deleting question:", error);
+      await refetch();
+    }
+  }
+
   return (
     <>
       <Typography variant="h2" fontSize="2rem">
@@ -89,7 +112,7 @@ export default function AddQuestion() {
             required
             id="outlined-required"
             label="Titre"
-            defaultValue="Hello World"
+            placeholder="test"
             onChange={handleQuestionChange}
           />
           <Button aria-label="increase" onClick={handleSubmit}>
@@ -102,7 +125,7 @@ export default function AddQuestion() {
       )}
        <Grid item xs={12} md={6}>
           <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-            Avatar with text and icon
+            Les questions
           </Typography>
          
             <List>
@@ -110,8 +133,8 @@ export default function AddQuestion() {
                 <ListItem
                 key={question.id}
                   secondaryAction={
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
+                    <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(question.id)}>
+                      <DeleteIcon  />
                     </IconButton>
                   }
                 >

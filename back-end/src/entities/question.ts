@@ -94,4 +94,17 @@ export class Question extends BaseEntity {
 
     return questions;
   }
+  
+  static async getReponsesByQuestionId(id: string): Promise<Reponse[]> {
+    const question = await Question.findOne({
+      where: { id },
+      relations: ['reponses'],
+    });
+  
+    if (!question) {
+      throw new Error("La question n'existe pas");
+    }
+  
+    return question.reponses; 
+  }
 }
