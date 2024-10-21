@@ -19,7 +19,7 @@ import {
 import { GET_CATEGORIES } from "@/pages/quiz";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { GET_ALL_QUIZ } from "@/components/Admin/QuizTable";
-import AddQuestion from "@/components/Admin/Question/AddQuestion";
+import AddQuestion from "@/components/Admin/Question/QuestionsList";
 
 const UPDATE_QUIZ = gql`
   mutation UpdateQuiz(
