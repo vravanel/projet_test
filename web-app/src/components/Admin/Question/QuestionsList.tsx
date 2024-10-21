@@ -3,21 +3,14 @@ import {
   Typography,
   Button,
   TextField,
-  List,
-  ListItem,
-  ListItemText,
   Card,
   CardContent,
   CardActions,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useEffect, useState } from "react";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import {
@@ -29,6 +22,7 @@ import { GET_QUESTIONS_BY_QUIZ } from "@/pages/quiz/[id]";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ResponsesList from "../Responses/ResponsesList";
+import AddResponse from "../Responses/AddResponse";
 
 const ADD_QUESTION = gql`
   mutation NewQuestion($title: String!, $quizId: String!) {
@@ -192,13 +186,7 @@ export default function AddQuestion() {
                 />
               </CardContent>
               <CardActions>
-                <Button
-                  size="small"
-                  startIcon={<AddIcon />}
-                  onClick={() => setIsClick(true)}
-                >
-                  Ajouter une réponse
-                </Button>
+              <AddResponse questionId={question.id} />
                 <IconButton
                   edge="end"
                   aria-label="delete"

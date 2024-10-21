@@ -12,7 +12,7 @@ import {
   import DeleteIcon from "@mui/icons-material/Delete";
   import { gql, useLazyQuery } from "@apollo/client";
   import { useEffect } from "react";
-  
+
   const GET_REPONSES_BY_QUESTION = gql`
     query GetReponsesByQuestionId($questionId: String!) {
       getReponsesByQuestionId(questionId: $questionId) {
@@ -22,6 +22,7 @@ import {
       }
     }
   `;
+
   
   type ResponsesListProps = {
     questionId: string;
@@ -50,7 +51,7 @@ import {
                 <ListItemText
                   primary={response.title}
                   secondary={response.isValid ? "Correcte" : "Incorrecte"}
-                />
+                />                
                 <IconButton
                   edge="end"
                   aria-label="delete"

@@ -16,8 +16,10 @@ const documents = {
     "\nquery GetCategories {\n  getCategories {\n    id\n    name\n  }\n}\n": types.GetCategoriesDocument,
     "\n  mutation NewQuestion($title: String!, $quizId: String!) {\n    newQuestion(title: $title, quizId: $quizId) {\n      id\n      title\n    }\n  }\n": types.NewQuestionDocument,
     "\n  mutation DeleteQuestion($deleteQuestionId: ID!) {\n    deleteQuestion(id: $deleteQuestionId) {\n      id\n    }\n  }\n": types.DeleteQuestionDocument,
-    "\nquery GetReponsesByQuestionId($questionId: String!) {\n  getReponsesByQuestionId(questionId: $questionId) {\n    id\n    title\n    isValid\n  }\n}\n": types.GetReponsesByQuestionIdDocument,
+    "\n  query GetReponsesByQuestionId($questionId: String!) {\n    getReponsesByQuestionId(questionId: $questionId) {\n      id\n      title\n      isValid\n    }\n  }\n": types.GetReponsesByQuestionIdDocument,
     "\n  query GetAllQuiz {\n    getAllQuiz {\n      id\n      title\n      description\n      isFinish\n      difficulty\n    }\n  }\n": types.GetAllQuizDocument,
+    "\nmutation NewResponse($title: String!, $isValid: Boolean!, $questionId: String!) {\n  newReponse(title: $title, isValid: $isValid, questionId: $questionId) {\n    id\n    isValid\n    title\n  }\n}\n": types.NewResponseDocument,
+    "\n    query GetReponsesByQuestionId($questionId: String!) {\n      getReponsesByQuestionId(questionId: $questionId) {\n        id\n        title\n        isValid\n      }\n    }\n  ": types.GetReponsesByQuestionIdDocument,
     "\nmutation NewCategory($name: String!) {\n  newCategory(name: $name) {\n    id\n    name\n  }\n}\n": types.NewCategoryDocument,
     "\n  mutation UpdateQuiz(\n    $title: String!\n    $description: String!\n    $isFinish: Boolean!\n    $difficulty: String!\n    $image: String!\n    $categoryId: String!\n    $updateQuizId: ID!\n  ) {\n    updateQuiz(\n      title: $title\n      description: $description\n      isFinish: $isFinish\n      difficulty: $difficulty\n      image: $image\n      categoryId: $categoryId\n      id: $updateQuizId\n    ) {\n      description\n      difficulty\n      id\n      image\n      title\n      category {\n        name\n      }\n    }\n  }\n": types.UpdateQuizDocument,
     "\n  query GetQuiz($getQuizId: ID!) {\n    getQuiz(id: $getQuizId) {\n      description\n      difficulty\n      id\n      image\n      isFinish\n      title\n      category {\n        name\n        id\n      }\n    }\n  }\n": types.GetQuizDocument,
@@ -57,11 +59,19 @@ export function graphql(source: "\n  mutation DeleteQuestion($deleteQuestionId: 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\nquery GetReponsesByQuestionId($questionId: String!) {\n  getReponsesByQuestionId(questionId: $questionId) {\n    id\n    title\n    isValid\n  }\n}\n"): (typeof documents)["\nquery GetReponsesByQuestionId($questionId: String!) {\n  getReponsesByQuestionId(questionId: $questionId) {\n    id\n    title\n    isValid\n  }\n}\n"];
+export function graphql(source: "\n  query GetReponsesByQuestionId($questionId: String!) {\n    getReponsesByQuestionId(questionId: $questionId) {\n      id\n      title\n      isValid\n    }\n  }\n"): (typeof documents)["\n  query GetReponsesByQuestionId($questionId: String!) {\n    getReponsesByQuestionId(questionId: $questionId) {\n      id\n      title\n      isValid\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query GetAllQuiz {\n    getAllQuiz {\n      id\n      title\n      description\n      isFinish\n      difficulty\n    }\n  }\n"): (typeof documents)["\n  query GetAllQuiz {\n    getAllQuiz {\n      id\n      title\n      description\n      isFinish\n      difficulty\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\nmutation NewResponse($title: String!, $isValid: Boolean!, $questionId: String!) {\n  newReponse(title: $title, isValid: $isValid, questionId: $questionId) {\n    id\n    isValid\n    title\n  }\n}\n"): (typeof documents)["\nmutation NewResponse($title: String!, $isValid: Boolean!, $questionId: String!) {\n  newReponse(title: $title, isValid: $isValid, questionId: $questionId) {\n    id\n    isValid\n    title\n  }\n}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query GetReponsesByQuestionId($questionId: String!) {\n      getReponsesByQuestionId(questionId: $questionId) {\n        id\n        title\n        isValid\n      }\n    }\n  "): (typeof documents)["\n    query GetReponsesByQuestionId($questionId: String!) {\n      getReponsesByQuestionId(questionId: $questionId) {\n        id\n        title\n        isValid\n      }\n    }\n  "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
